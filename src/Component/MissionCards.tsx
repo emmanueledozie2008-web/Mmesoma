@@ -114,7 +114,7 @@ const ImageCarousel: React.FC<CarouselProps> = ({ images, title, link }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   const [isHovered, setIsHovered] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Auto-slide logic
   useEffect(() => {

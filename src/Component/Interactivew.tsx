@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaUserSecret, FaEnvelope, FaPaperPlane, FaClock, FaExclamationTriangle } from 'react-icons/fa';
+import { FaUserSecret,  FaPaperPlane, FaClock, FaExclamationTriangle } from 'react-icons/fa';
 
 // Sample most wanted data (replace with real API if needed)
 const mostWantedList = [

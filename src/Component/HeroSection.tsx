@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { FaLock, FaShieldAlt, FaGlobe } from 'react-icons/fa';
-import MissionCards from './MissionCards';
+
 
 const HeroSection: React.FC = () => {
   const [showInfoWidget, setShowInfoWidget] = useState(false);
