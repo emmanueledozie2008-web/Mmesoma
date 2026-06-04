@@ -4,6 +4,7 @@ import HeroSection from './HeroSection'
 import Interactivew from './Interactivew'
 import MissionCards from './MissionCards'
 import Navbar from './Navbar'
+import Youtube from './Youtube'
 
 function Home() {
   return (
@@ -13,6 +14,7 @@ function Home() {
         <HeroSection/>
         <MissionCards/>
         <Interactivew/> 
+        <Youtube/>
         <Footer/>    
     </div>
   )
