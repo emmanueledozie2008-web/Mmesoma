@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, href } from 'react-router-dom';
 import {
   FaBars,
   FaTimes,
@@ -29,8 +29,10 @@ const Navbar: React.FC = () => {
   const navLinks = [
     { name: 'HOME', href: '/' },
     { name: 'MOST WANTED', href: '/mostwanted' },
-    { name: 'TEN MOST WANTED', href: '/ten-most-wanted' },
+    { name: 'HISTORY', href: '/History' },
+    {name: 'ABOUT', href:'/About'},
     { name: 'NEWS', href: '/news' },
+    {name: 'INVESTIGATIONS', href:'/Investigations'},
     { name: 'CONTACT', href: '/contact' },
   ];
 
