@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   FaLandmark, FaBullseye, FaUsers, FaSitemap, FaShieldAlt, 
   FaBalanceScale, FaHandshake, FaChartLine, FaLightbulb,
-  FaBuilding, FaFileAlt, FaGlobeAmericas
+  
 } from 'react-icons/fa';
 import Navbar from '../Component/Navbar';
 
@@ -87,7 +87,7 @@ const Counter: React.FC<{ target: number; label: string; suffix?: string }> = ({
 // Widget: Did You Know? Fact Rotator
 const facts = [
   "The FBI's first official task was investigating antitrust violations.",
-  "J. Edgar Hoover was FBI Director for 48 years – from 1924 to 1972.",
+  "J. Edgar Hoover was FBI Director for 48 years - from 1924 to 1972.",
   "The FBI Laboratory is one of the largest and most comprehensive crime labs in the world.",
   "The FBI's Ten Most Wanted Fugitives list has helped capture over 500 criminals.",
   "FBI agents must be between 23 and 37 years old at the time of appointment.",
@@ -215,7 +215,7 @@ const About: React.FC = () => {
               <FaHandshake className="text-2xl text-[#FFD700]" />
             </div>
             <p className="text-sm text-gray-500 italic">
-              "Fidelity, Bravery, Integrity" – The FBI motto
+              "Fidelity, Bravery, Integrity" - The FBI motto
             </p>
           </div>
         </section>

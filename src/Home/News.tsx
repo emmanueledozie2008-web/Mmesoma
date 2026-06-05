@@ -1,9 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { 
   FaSearch, FaFilter, FaCalendarAlt, FaNewspaper, 
-  FaBullhorn, FaExclamationTriangle, FaStar, FaCalendarCheck,
-  FaPhotoVideo, FaFileAlt, FaExternalLinkAlt, FaClock,
-  FaUserSecret, FaMicrophoneAlt, FaChalkboardTeacher
+   FaExclamationTriangle, FaStar, FaCalendarCheck,
+  FaPhotoVideo, FaExternalLinkAlt, 
 } from 'react-icons/fa';
 import Navbar from '../Component/Navbar';
 

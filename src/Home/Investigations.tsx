@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { 
   FaSearch, FaFilter, FaClock, FaChartLine, FaShieldAlt, 
-  FaExclamationTriangle, FaUserSecret, FaDatabase, FaBug,
-  FaBalanceScale, FaExternalLinkAlt, FaNewspaper
+  FaExclamationTriangle,  FaExternalLinkAlt, FaNewspaper
 } from 'react-icons/fa';
 
 // Investigation types
