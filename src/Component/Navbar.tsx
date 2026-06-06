@@ -21,6 +21,7 @@ const Navbar: React.FC = () => {
     { name: 'CONTACT', href: '/contact' },
     { name: 'CYBER-CRIME', href: '/CybarCrimeCenter' },
     { name: 'USA-GOV', href: 'https://www.usa.gov', external: true },
+    { name: 'WHITE-HOUSE', href: 'https://www.whitehouse.gov', external: true },
   ];
 
   const closeSidebar = () => setIsSidebarOpen(false);
