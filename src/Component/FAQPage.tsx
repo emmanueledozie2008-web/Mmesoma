@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  FaQuestionCircle, FaPhoneAlt, FaShieldAlt, FaEnvelope, 
-  FaExclamationTriangle, FaLightbulb, FaChevronDown, FaChevronUp,
-  FaUserSecret, FaGlobeAmericas, FaFileAlt
+  FaQuestionCircle, FaPhoneAlt,  FaEnvelope, 
+   FaLightbulb, FaChevronDown, FaChevronUp,
+  FaUserSecret,  FaFileAlt
 } from 'react-icons/fa';
 
 // FAQ data structure
