@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   FaShieldAlt, FaExclamationTriangle, FaBug, 
   FaEnvelope, FaUserSecret, FaArrowRight, FaChevronLeft, 
-  FaChevronRight, FaDownload, FaVideo, FaBookOpen
+  FaChevronRight,  FaVideo, FaBookOpen
 } from 'react-icons/fa';
 import Navbar from '../Component/Navbar';
 
