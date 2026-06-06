@@ -1,4 +1,5 @@
 
+import FAQPage from './FAQPage'
 import Footer from './Footer'
 import HeroSection from './HeroSection'
 import Interactivew from './Interactivew'
@@ -15,6 +16,7 @@ function Home() {
         <MissionCards/>
         <Interactivew/> 
         <Youtube/>
+        <FAQPage/>
         <Footer/>    
     </div>
   )

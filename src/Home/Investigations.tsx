@@ -3,6 +3,7 @@ import {
   FaSearch, FaFilter, FaClock, FaChartLine, FaShieldAlt, 
   FaExclamationTriangle,  FaExternalLinkAlt, FaNewspaper
 } from 'react-icons/fa';
+import Navbar from '../Component/Navbar';
 
 // Investigation types
 type InvestigationCategory = 'counterterrorism' | 'counterintelligence' | 'cyber' | 'publicCorruption' | 'organizedCrime' | 'violentCrime';
@@ -139,6 +140,7 @@ const Investigations: React.FC = () => {
   return (
     <div className="bg-white min-h-screen">
       {/* Hero */}
+      <Navbar/>
       <div className="bg-[#0B3B60] text-white py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-center mb-4">

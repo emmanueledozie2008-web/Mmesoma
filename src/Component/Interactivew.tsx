@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaUserSecret,  FaPaperPlane, FaClock, FaExclamationTriangle } from 'react-icons/fa';
-import Navbar from './Navbar';
+
 
 // Sample most wanted data (replace with real API if needed)
 const mostWantedList = [
@@ -63,7 +63,6 @@ const Interactivew: React.FC = () => {
 
   return (
     <section className="bg-white py-16 px-4">
-      <Navbar/>
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-[#0B3B60] text-center mb-12">
           Citizen Tools & Resources
