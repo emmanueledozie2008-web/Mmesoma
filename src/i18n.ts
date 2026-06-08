@@ -772,8 +772,10 @@ disclaimerNote: 'This form is for non‑emergency scam reporting only. Do not sh
 };
 i18n.use(LanguageDetector).use(initReactI18next).init({
     resources,
-    fallbacklng: 'en',
-    interpolation:{escapeValue:false},
-})
+    fallbackLng: "en",
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
 export default i18n;
