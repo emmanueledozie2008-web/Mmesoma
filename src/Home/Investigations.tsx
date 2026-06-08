@@ -1,102 +1,111 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { 
   FaSearch, FaFilter, FaClock, FaChartLine, FaShieldAlt, 
-  FaExclamationTriangle,  FaExternalLinkAlt, FaNewspaper
+  FaExclamationTriangle, 
+   FaExternalLinkAlt, FaNewspaper,
+  FaChevronLeft, FaChevronRight
 } from 'react-icons/fa';
 import Navbar from '../Component/Navbar';
+import Footer from '../Component/Footer';
 
-// Investigation types
 type InvestigationCategory = 'counterterrorism' | 'counterintelligence' | 'cyber' | 'publicCorruption' | 'organizedCrime' | 'violentCrime';
 
 interface Investigation {
   id: string;
-  title: string;
+  titleKey: string;
   category: InvestigationCategory;
   status: 'active' | 'ongoing' | 'new' | 'update';
-  location: string;
-  summary: string;
+  locationKey: string;
+  summaryKey: string;
   lastUpdate: string;
-  imageUrl: string;
+  imageUrls: string[];   // array of images for auto-slide
   priority: 'high' | 'medium' | 'low';
 }
 
-// Sample data
+// Helper: image sets – you can replace with real ones
+const getImageSet = (baseIndex: number): string[] => [
+  `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8B4U85CLzSwjZneysW0LThc2VutoJtQZLkA&s${baseIndex}`,
+  `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHlqSuOZThZfFbdJKO75Onu0iuHbrM4EOP-g&s${baseIndex+1}`,
+  `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkFwaIi_B9qH3YoZrMhjDZfWthhvXkeIS87g&s${baseIndex+2}`,
+];
+
 const investigationsData: Investigation[] = [
   {
     id: 'inv1',
-    title: 'Operation Ghost Wind',
+    titleKey: 'inv1Title',
     category: 'counterterrorism',
     status: 'active',
-    location: 'Domestic / Multi-state',
-    summary: 'Joint task force investigating potential domestic extremist plots targeting government facilities. Multiple suspects under surveillance.',
+    locationKey: 'inv1Location',
+    summaryKey: 'inv1Summary',
     lastUpdate: '2025-06-03',
-    imageUrl: 'https://images.unsplash.com/photo-1582139315650-09f6d024f67c?w=400&h=250&fit=crop',
+    imageUrls: getImageSet(1),
     priority: 'high',
   },
   {
     id: 'inv2',
-    title: 'Cyberspy Ring',
+    titleKey: 'inv2Title',
     category: 'counterintelligence',
     status: 'ongoing',
-    location: 'East Coast',
-    summary: 'Foreign intelligence operatives attempting to infiltrate defense contractors. Countermeasures deployed.',
+    locationKey: 'inv2Location',
+    summaryKey: 'inv2Summary',
     lastUpdate: '2025-06-01',
-    imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=250&fit=crop',
+    imageUrls: getImageSet(2),
     priority: 'high',
   },
   {
     id: 'inv3',
-    title: 'Ransomware Collective "DarkVault"',
+    titleKey: 'inv3Title',
     category: 'cyber',
     status: 'active',
-    location: 'International',
-    summary: 'FBI leading multi-agency effort to dismantle ransomware group responsible for hospital attacks. Rewards offered for information.',
+    locationKey: 'inv3Location',
+    summaryKey: 'inv3Summary',
     lastUpdate: '2025-06-04',
-    imageUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=400&h=250&fit=crop',
+    imageUrls: getImageSet(3),
     priority: 'high',
   },
   {
     id: 'inv4',
-    title: 'Public Integrity – City Hall',
+    titleKey: 'inv4Title',
     category: 'publicCorruption',
     status: 'new',
-    location: 'Midwest',
-    summary: 'Investigation into bribery and kickback schemes involving public contracts. Subpoenas issued.',
+    locationKey: 'inv4Location',
+    summaryKey: 'inv4Summary',
     lastUpdate: '2025-06-02',
-    imageUrl: 'https://images.unsplash.com/photo-1589578228447-e1a4e481c6c8?w=400&h=250&fit=crop',
+    imageUrls: getImageSet(4),
     priority: 'medium',
   },
   {
     id: 'inv5',
-    title: 'Transnational Drug Cartel "Norteño"',
+    titleKey: 'inv5Title',
     category: 'organizedCrime',
     status: 'ongoing',
-    location: 'Southwest border',
-    summary: 'Wiretaps and undercover operations targeting drug trafficking and money laundering. Multiple arrests expected.',
+    locationKey: 'inv5Location',
+    summaryKey: 'inv5Summary',
     lastUpdate: '2025-05-30',
-    imageUrl: 'https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=250&fit=crop',
+    imageUrls: getImageSet(5),
     priority: 'high',
   },
   {
     id: 'inv6',
-    title: 'Serial Bank Robberies',
+    titleKey: 'inv6Title',
     category: 'violentCrime',
     status: 'update',
-    location: 'Pacific Northwest',
-    summary: 'Pattern identification leads to suspect vehicle. FBI seeking public assistance.',
+    locationKey: 'inv6Location',
+    summaryKey: 'inv6Summary',
     lastUpdate: '2025-06-05',
-    imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop',
+    imageUrls: getImageSet(6),
     priority: 'medium',
   },
 ];
 
 const categoryLabels: Record<InvestigationCategory, string> = {
-  counterterrorism: 'Counterterrorism',
-  counterintelligence: 'Counterintelligence',
-  cyber: 'Cybercrime',
-  publicCorruption: 'Public Corruption',
-  organizedCrime: 'Organized Crime',
-  violentCrime: 'Violent Crime',
+  counterterrorism: 'categoryCounterterrorism',
+  counterintelligence: 'categoryCounterintelligence',
+  cyber: 'categoryCyber',
+  publicCorruption: 'categoryPublicCorruption',
+  organizedCrime: 'categoryOrganizedCrime',
+  violentCrime: 'categoryViolentCrime',
 };
 
 const statusBadgeColors = {
@@ -112,46 +121,119 @@ const priorityColors = {
   low: 'text-green-700 bg-green-100',
 };
 
-// Helper: format date
 const formatDate = (dateStr: string) => {
   const d = new Date(dateStr);
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
-const Investigations: React.FC = () => {
+// Image Carousel Component (auto‑slide)
+const ImageCarousel: React.FC<{ images: string[]; title: string }> = ({ images, title }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
+  const [isHovered, setIsHovered] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const startAutoSlide = () => {
+      intervalRef.current = setInterval(() => {
+        setSlideDirection('right');
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+      }, 4000);
+    };
+    const stopAutoSlide = () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+    if (!isHovered) startAutoSlide();
+    else stopAutoSlide();
+    return () => stopAutoSlide();
+  }, [isHovered, images.length]);
+
+  const nextSlide = () => {
+    setSlideDirection('right');
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+  const prevSlide = () => {
+    setSlideDirection('left');
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+  const goToSlide = (index: number) => {
+    setSlideDirection(index > currentIndex ? 'right' : 'left');
+    setCurrentIndex(index);
+  };
+
+  return (
+    <div className="relative h-40 overflow-hidden group" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <div
+        key={currentIndex}
+        className={`w-full h-full transition-transform duration-500 ease-in-out ${
+          slideDirection === 'right' ? 'animate-slideInRight' : 'animate-slideInLeft'
+        }`}
+      >
+        <img src={images[currentIndex]} alt={title} className="w-full h-full object-cover" />
+      </div>
+      {images.length > 1 && (
+        <>
+          <button onClick={prevSlide} className="absolute left-1 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition">
+            <FaChevronLeft size={12} />
+          </button>
+          <button onClick={nextSlide} className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition">
+            <FaChevronRight size={12} />
+          </button>
+          <div className="absolute bottom-1 left-0 right-0 flex justify-center gap-1">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => goToSlide(idx)}
+                className={`w-1.5 h-1.5 rounded-full transition-all ${
+                  idx === currentIndex ? 'bg-[#FFD700] w-3' : 'bg-white/60'
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+      <style>{`
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-100%); } to { opacity: 1; transform: translateX(0); } }
+        .animate-slideInRight { animation: slideInRight 0.4s ease-out; }
+        .animate-slideInLeft { animation: slideInLeft 0.4s ease-out; }
+      `}</style>
+    </div>
+  );
+};
+
+const InvestigationsPage: React.FC = () => {
+  const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
 
-  // Filter investigations
   const filteredInvestigations = investigationsData.filter(inv => {
     const matchesCategory = activeCategory === 'all' || inv.category === activeCategory;
-    const matchesSearch = inv.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          inv.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          inv.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = t(inv.titleKey).toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          t(inv.summaryKey).toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          t(inv.locationKey).toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || inv.status === filterStatus;
     return matchesCategory && matchesSearch && matchesStatus;
   });
 
-  // Separate active/ongoing from case updates
   const activeInvestigations = filteredInvestigations.filter(inv => inv.status === 'active' || inv.status === 'ongoing' || inv.status === 'new');
   const caseUpdates = filteredInvestigations.filter(inv => inv.status === 'update');
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Hero */}
       <Navbar/>
+      {/* Hero */}
       <div className="bg-[#0B3B60] text-white py-12 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto text-center">
           <div className="flex justify-center mb-4">
             <div className="bg-[#B22234] p-3 rounded-full">
               <FaShieldAlt className="text-3xl" />
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-center mb-3">Investigations</h1>
-          <p className="text-center text-gray-200 max-w-2xl mx-auto">
-            Official updates on current FBI investigations, case progress, and priority areas.
-          </p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-3">{t('investigationsTitle')}</h1>
+          <p className="text-gray-200 max-w-2xl mx-auto">{t('investigationsSubtitle')}</p>
         </div>
       </div>
 
@@ -163,7 +245,7 @@ const Investigations: React.FC = () => {
               <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search by title, summary, or location..."
+                placeholder={t('searchInvestigations')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B22234] focus:outline-none"
@@ -177,80 +259,74 @@ const Investigations: React.FC = () => {
                   onChange={(e) => setFilterStatus(e.target.value)}
                   className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B22234] appearance-none"
                 >
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="ongoing">Ongoing</option>
-                  <option value="new">New</option>
-                  <option value="update">Case Update</option>
+                  <option value="all">{t('allStatus')}</option>
+                  <option value="active">{t('statusActive')}</option>
+                  <option value="ongoing">{t('statusOngoing')}</option>
+                  <option value="new">{t('statusNew')}</option>
+                  <option value="update">{t('statusUpdate')}</option>
                 </select>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Investigation Categories (filter pills) */}
+        {/* Investigation Categories */}
         <div className="mb-10">
           <h2 className="text-xl font-bold text-[#0B3B60] mb-4 flex items-center gap-2">
-            <FaChartLine /> Investigation Categories
+            <FaChartLine /> {t('investigationCategories')}
           </h2>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setActiveCategory('all')}
               className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-                activeCategory === 'all'
-                  ? 'bg-[#B22234] text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                activeCategory === 'all' ? 'bg-[#B22234] text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >
-              All
+              {t('allCategories')}
             </button>
-            {Object.entries(categoryLabels).map(([value, label]) => (
+            {Object.entries(categoryLabels).map(([value, labelKey]) => (
               <button
                 key={value}
                 onClick={() => setActiveCategory(value)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-                  activeCategory === value
-                    ? 'bg-[#B22234] text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  activeCategory === value ? 'bg-[#B22234] text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
-                {label}
+                {t(labelKey)}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Active Investigations Section */}
+        {/* Active Investigations */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-[#0B3B60] border-l-4 border-[#B22234] pl-3 mb-6 flex items-center gap-2">
-            <FaExclamationTriangle /> Active Investigations
+            <FaExclamationTriangle /> {t('activeInvestigations')}
           </h2>
           {activeInvestigations.length === 0 ? (
             <div className="text-center py-8 bg-gray-50 rounded-xl">
-              <p className="text-gray-500">No active investigations match your criteria.</p>
+              <p className="text-gray-500">{t('noActiveInvestigations')}</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {activeInvestigations.map(inv => (
                 <div key={inv.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition flex flex-col h-full">
-                  <div className="relative h-40 overflow-hidden">
-                    <img src={inv.imageUrl} alt={inv.title} className="w-full h-full object-cover" />
-                    <div className="absolute top-2 right-2 flex gap-1">
+                  <ImageCarousel images={inv.imageUrls} title={t(inv.titleKey)} />
+                  <div className="p-5 flex flex-col flex-grow">
+                    <div className="flex flex-wrap gap-1 mb-2">
                       <span className={`text-xs font-bold px-2 py-1 rounded-full ${statusBadgeColors[inv.status]} text-white`}>
-                        {inv.status.toUpperCase()}
+                        {t(`status_${inv.status}`)}
                       </span>
                       <span className={`text-xs font-bold px-2 py-1 rounded-full ${priorityColors[inv.priority]}`}>
-                        {inv.priority.toUpperCase()} PRIORITY
+                        {t(`priority_${inv.priority}`)}
                       </span>
                     </div>
-                  </div>
-                  <div className="p-5 flex flex-col flex-grow">
-                    <h3 className="font-bold text-lg text-[#0B3B60] mb-1">{inv.title}</h3>
-                    <p className="text-sm text-gray-500 mb-2">📍 {inv.location}</p>
-                    <p className="text-sm text-gray-600 mb-3 flex-grow">{inv.summary}</p>
+                    <h3 className="font-bold text-lg text-[#0B3B60] mb-1">{t(inv.titleKey)}</h3>
+                    <p className="text-sm text-gray-500 mb-2">📍 {t(inv.locationKey)}</p>
+                    <p className="text-sm text-gray-600 mb-3 flex-grow">{t(inv.summaryKey)}</p>
                     <div className="flex justify-between items-center text-xs text-gray-400 mt-2">
-                      <span className="flex items-center gap-1"><FaClock /> Last update: {formatDate(inv.lastUpdate)}</span>
-                      <span className="bg-gray-100 px-2 py-1 rounded">{categoryLabels[inv.category]}</span>
+                      <span className="flex items-center gap-1"><FaClock /> {t('lastUpdate')}: {formatDate(inv.lastUpdate)}</span>
+                      <span className="bg-gray-100 px-2 py-1 rounded">{t(categoryLabels[inv.category])}</span>
                     </div>
                   </div>
                 </div>
@@ -259,11 +335,11 @@ const Investigations: React.FC = () => {
           )}
         </div>
 
-        {/* Case Updates Section */}
+        {/* Case Updates */}
         {caseUpdates.length > 0 && (
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-[#0B3B60] border-l-4 border-[#B22234] pl-3 mb-6 flex items-center gap-2">
-              <FaNewspaper /> Case Updates
+              <FaNewspaper /> {t('caseUpdates')}
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {caseUpdates.map(update => (
@@ -273,12 +349,12 @@ const Investigations: React.FC = () => {
                       <FaExternalLinkAlt className="text-[#B22234]" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-[#0B3B60] text-lg">{update.title}</h3>
-                      <p className="text-sm text-gray-500 mt-1">📍 {update.location}</p>
-                      <p className="text-gray-700 text-sm mt-2">{update.summary}</p>
+                      <h3 className="font-bold text-[#0B3B60] text-lg">{t(update.titleKey)}</h3>
+                      <p className="text-sm text-gray-500 mt-1">📍 {t(update.locationKey)}</p>
+                      <p className="text-gray-700 text-sm mt-2">{t(update.summaryKey)}</p>
                       <div className="flex justify-between items-center mt-3 text-xs text-gray-400">
                         <span className="flex items-center gap-1"><FaClock /> {formatDate(update.lastUpdate)}</span>
-                        <span className="text-green-600 font-semibold">New development →</span>
+                        <span className="text-green-600 font-semibold">{t('newDevelopment')}</span>
                       </div>
                     </div>
                   </div>
@@ -288,20 +364,21 @@ const Investigations: React.FC = () => {
           </div>
         )}
 
-        {/* No results message */}
+        {/* No results */}
         {filteredInvestigations.length === 0 && (
           <div className="text-center py-12 bg-gray-50 rounded-xl">
-            <p className="text-gray-500">No investigations match your search or filter criteria.</p>
+            <p className="text-gray-500">{t('noInvestigationsMatch')}</p>
           </div>
         )}
 
         {/* Disclaimer */}
         <div className="mt-12 text-center text-xs text-gray-400 border-t pt-6">
-          <p>The information provided is for official use and public awareness. Some details may be withheld to protect ongoing operations.</p>
+          <p>{t('investigationsDisclaimer')}</p>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };
 
-export default Investigations;
+export default InvestigationsPage;

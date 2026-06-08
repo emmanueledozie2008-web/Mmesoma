@@ -7,6 +7,8 @@ import News from './Home/News'
 import About from './Home/About'
 import Investigations from './Home/Investigations'
 import CyberCrimeCenter from './Home/CybarCrimeCenter'
+import ContactPage from './Home/ContactPage'
+
 
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
   <Route path='/Investigations' element={<Investigations/>}/> 
   <Route path='/About' element={<About/>}/> 
   <Route path='/CybarCrimeCenter' element={<CyberCrimeCenter/>}/> 
+  <Route path='/ContactPage' element={<ContactPage/>}/> 
    </Routes>
    </BrowserRouter>
     </div>

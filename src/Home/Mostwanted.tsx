@@ -1,109 +1,106 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaSearch, FaFilter, FaUserSecret, FaDollarSign, FaBalanceScale } from 'react-icons/fa';
+import Navbar from '../Component/Navbar';
 
-// Sample fugitive data (replace with real API data later)
 interface Fugitive {
   id: number;
-  name: string;
-  aliases: string;
+  nameKey: string;
+  aliasesKey: string;
   reward: string;
-  charges: string;
+  chargesKey: string;
   imageUrl: string;
-  caution: string;
+  cautionKey: string;
 }
 
 const fugitivesData: Fugitive[] = [
   {
     id: 1,
-    name: 'JAMAL SAEED ABDUL RAHIM',
-    aliases: 'J.D., "Ghost"',
+    nameKey: 'fugitive1Name',
+    aliasesKey: 'fugitive1Alias',
     reward: '$100,000',
-    charges: 'Terrorism, Most Wanted Terrorists',
+    chargesKey: 'fugitive1Charges',
     imageUrl: 'https://www.fbi.gov/wanted/wanted_terrorists/jamal-saeed-abdul-rahim/@@images/image/high',
-    caution: 'Considered armed and dangerous',
+    cautionKey: 'fugitive1Caution',
   },
   {
     id: 2,
-    name: 'WILLIAM WILLINGHAM',
-    aliases: 'La Reina, "death"',
+    nameKey: 'fugitive2Name',
+    aliasesKey: 'fugitive2Alias',
     reward: '$50,000',
-    charges: 'Crimes Against Children',
+    chargesKey: 'fugitive2Charges',
     imageUrl: 'https://www.fbi.gov/wanted/cac/william-willingham/@@images/image/mini',
-    caution: 'Extreme caution: known to use multiple identities',
+    cautionKey: 'fugitive2Caution',
   },
   {
     id: 3,
-    name: 'JOE MATTHEW CONSTANCE',
-    aliases: 'Vic, "El Loco"',
+    nameKey: 'fugitive3Name',
+    aliasesKey: 'fugitive3Alias',
     reward: '$75,000',
-    charges: 'Violent Crimes - Murders',
+    chargesKey: 'fugitive3Charges',
     imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop',
-    caution: 'Armed and extremely dangerous',
+    cautionKey: 'fugitive3Caution',
   },
   {
     id: 4,
-    name: 'SHAARE TEFILA SYNAGOGUE VANDALISM',
-    aliases: 'Bolek, "The Ghost"',
+    nameKey: 'fugitive4Name',
+    aliasesKey: 'fugitive4Alias',
     reward: '$200,000',
-    charges: 'Seeking Information',
+    chargesKey: 'fugitive4Charges',
     imageUrl: 'https://www.fbi.gov/wanted/seeking-info/shaare-tefila-synagogue-vandalism/@@images/image/mini',
-    caution: 'Foreign intelligence ties – do not approach',
+    cautionKey: 'fugitive4Caution',
   },
   {
     id: 5,
-    name: 'JESSON QUINTERO',
-    aliases: 'Elena, "La Jefa"',
+    nameKey: 'fugitive5Name',
+    aliasesKey: 'fugitive5Alias',
     reward: '$125,000',
-    charges: 'Additional Violent Crimes',
+    chargesKey: 'fugitive5Charges',
     imageUrl: 'https://www.fbi.gov/wanted/additional/jesson-quintero/@@images/image/mini',
-    caution: 'Known to be protected by armed cartel members',
+    cautionKey: 'fugitive5Caution',
   },
   {
     id: 6,
-    name: 'LEOBARDO PENA GUTIERREZ',
-    aliases: 'Dima, "The Wolf"',
+    nameKey: 'fugitive6Name',
+    aliasesKey: 'fugitive6Alias',
     reward: '$500,000',
-    charges: 'Criminal Enterprise Investigations',
+    chargesKey: 'fugitive6Charges',
     imageUrl: 'https://www.fbi.gov/wanted/cei/leobardo-pena-gutierrez/@@images/image/high',
-    caution: 'Highly skilled hacker; uses encrypted communications',
+    cautionKey: 'fugitive6Caution',
   },
 ];
 
 const Mostwanted: React.FC = () => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterReward, setFilterReward] = useState('all');
 
   const filteredFugitives = fugitivesData.filter((fugitive) => {
-    const matchesSearch = fugitive.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          fugitive.aliases.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          fugitive.charges.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      t(fugitive.nameKey).toLowerCase().includes(searchTerm.toLowerCase()) ||
+      t(fugitive.aliasesKey).toLowerCase().includes(searchTerm.toLowerCase()) ||
+      t(fugitive.chargesKey).toLowerCase().includes(searchTerm.toLowerCase());
     if (!matchesSearch) return false;
 
-    if (filterReward === 'high') {
-      const rewardAmount = parseInt(fugitive.reward.replace(/[^0-9]/g, ''));
-      return rewardAmount >= 100000;
-    } else if (filterReward === 'medium') {
-      const rewardAmount = parseInt(fugitive.reward.replace(/[^0-9]/g, ''));
-      return rewardAmount >= 50000 && rewardAmount < 100000;
-    } else if (filterReward === 'low') {
-      const rewardAmount = parseInt(fugitive.reward.replace(/[^0-9]/g, ''));
-      return rewardAmount < 50000;
-    }
+    const rewardAmount = parseInt(fugitive.reward.replace(/[^0-9]/g, ''));
+    if (filterReward === 'high') return rewardAmount >= 100000;
+    if (filterReward === 'medium') return rewardAmount >= 50000 && rewardAmount < 100000;
+    if (filterReward === 'low') return rewardAmount < 50000;
     return true;
   });
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      <Navbar />
       {/* Hero banner */}
       <div className="bg-[#0B3B60] text-white py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
             <FaUserSecret className="text-[#FFD700]" />
-            FBI Most Wanted
+            {t('mostWantedTitle')}
           </h1>
           <p className="text-lg text-gray-200 max-w-2xl mx-auto">
-            Help the FBI locate and capture these dangerous fugitives. 
-            If you have any information, do not approach – call 1-800-CALL-FBI immediately.
+            {t('mostWantedSubtitle')}
           </p>
         </div>
       </div>
@@ -115,7 +112,7 @@ const Mostwanted: React.FC = () => {
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Search by name, alias, or charge..."
+              placeholder={t('searchFugitives')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B22234]"
@@ -128,10 +125,10 @@ const Mostwanted: React.FC = () => {
               onChange={(e) => setFilterReward(e.target.value)}
               className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#B22234]"
             >
-              <option value="all">All Rewards</option>
-              <option value="high">High Reward ($100k+)</option>
-              <option value="medium">Medium Reward ($50k - $99k)</option>
-              <option value="low">Low Reward (below $50k)</option>
+              <option value="all">{t('allRewards')}</option>
+              <option value="high">{t('highReward')}</option>
+              <option value="medium">{t('mediumReward')}</option>
+              <option value="low">{t('lowReward')}</option>
             </select>
           </div>
         </div>
@@ -141,7 +138,7 @@ const Mostwanted: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 py-12">
         {filteredFugitives.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-gray-500 text-lg">No fugitives match your search criteria.</p>
+            <p className="text-gray-500 text-lg">{t('noFugitives')}</p>
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -153,39 +150,44 @@ const Mostwanted: React.FC = () => {
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={fugitive.imageUrl}
-                    alt={fugitive.name}
+                    alt={t(fugitive.nameKey)}
                     className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x500?text=FBI+Wanted';
+                    }}
                   />
                   <div className="absolute top-3 right-3 bg-[#B22234] text-white text-xs font-bold px-2 py-1 rounded-full">
-                    WANTED
+                    {t('wantedBadge')}
                   </div>
                 </div>
                 <div className="p-5">
-                  <h2 className="text-xl font-bold text-[#0B3B60] mb-1">{fugitive.name}</h2>
-                  <p className="text-sm text-gray-500 mb-3">AKA: {fugitive.aliases}</p>
+                  <h2 className="text-xl font-bold text-[#0B3B60] mb-1">{t(fugitive.nameKey)}</h2>
+                  <p className="text-sm text-gray-500 mb-3">
+                    {t('aka')}: {t(fugitive.aliasesKey)}
+                  </p>
                   <div className="flex items-center gap-2 mb-2">
                     <FaDollarSign className="text-[#FFD700]" />
-                    <span className="font-semibold text-green-700">{fugitive.reward} REWARD</span>
+                    <span className="font-semibold text-green-700">{fugitive.reward} {t('rewardLabel')}</span>
                   </div>
                   <div className="flex items-start gap-2 mb-3">
                     <FaBalanceScale className="text-gray-500 mt-0.5" />
-                    <p className="text-sm text-gray-700">{fugitive.charges}</p>
+                    <p className="text-sm text-gray-700">{t(fugitive.chargesKey)}</p>
                   </div>
                   <div className="bg-red-50 border-l-4 border-[#B22234] p-2 mb-4">
-                    <p className="text-xs text-red-700 font-semibold">⚠️ {fugitive.caution}</p>
+                    <p className="text-xs text-red-700 font-semibold">⚠️ {t(fugitive.cautionKey)}</p>
                   </div>
                   <div className="flex gap-3">
                     <a
                       href={`/most-wanted/${fugitive.id}`}
                       className="flex-1 bg-[#0B3B60] hover:bg-[#082A45] text-white text-center py-2 rounded-lg font-semibold transition-colors"
                     >
-                      View Profile
+                      {t('viewProfile')}
                     </a>
                     <a
                       href="/tips"
                       className="flex-1 border-2 border-[#B22234] text-[#B22234] hover:bg-[#B22234] hover:text-white text-center py-2 rounded-lg font-semibold transition-colors"
                     >
-                      Submit Tip
+                      {t('submitTip')}
                     </a>
                   </div>
                 </div>
@@ -199,8 +201,7 @@ const Mostwanted: React.FC = () => {
       <div className="bg-[#0B3B60]/5 py-8 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-sm text-gray-600">
-            Do not attempt to apprehend any of these individuals yourself. They are considered armed and dangerous. 
-            Any information should be reported to your local FBI field office or by calling <strong className="text-[#B22234]">1-800-CALL-FBI</strong>.
+            {t('tipWarning')}
           </p>
         </div>
       </div>

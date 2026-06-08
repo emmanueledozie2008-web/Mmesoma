@@ -1,12 +1,25 @@
 import React from 'react';
-import { FaTwitter, FaFacebookF, FaYoutube, FaEnvelope, FaPhoneAlt, FaShieldAlt } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
+import { FaTwitter, FaFacebookF, FaYoutube, FaEnvelope, FaPhoneAlt, FaShieldAlt, FaGlobe } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const currentYear = new Date().getFullYear();
+
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'es', name: 'Español', flag: '🇪🇸' },
+    { code: 'fr', name: 'Français', flag: '🇫🇷' },
+    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+    { code: 'zh', name: '中文', flag: '🇨🇳' },
+  ];
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
   return (
     <footer className="bg-[#0B3B60] text-white mt-auto">
-      {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Column 1: Agency info */}
@@ -17,13 +30,11 @@ const Footer: React.FC = () => {
               </div>
               <span className="font-bold text-lg tracking-tight">FBI</span>
             </div>
-            <p className="text-sm text-gray-300 mb-4">
-              Federal Bureau of Investigation<br />
-              J. Edgar Hoover Building<br />
-              935 Pennsylvania Avenue, NW<br />
-              Washington, D.C. 20535-0001
-            </p>
-            <div className="flex space-x-3">
+            <div
+              className="text-sm text-gray-300 mb-4"
+              dangerouslySetInnerHTML={{ __html: t('footerAddress') }}
+            />
+            <div className="flex space-x-3 mb-4">
               <a href="#" className="text-gray-300 hover:text-[#FFD700] transition-colors">
                 <FaTwitter size={18} />
               </a>
@@ -39,71 +50,87 @@ const Footer: React.FC = () => {
           {/* Column 2: Quick links */}
           <div>
             <h3 className="text-lg font-bold border-b-2 border-[#B22234] inline-block pb-1 mb-4">
-              Quick Links
+              {t('quickLinks')}
             </h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/most-wanted" className="text-gray-300 hover:text-white transition-colors">FBI Most Wanted</a></li>
-              <li><a href="/ten-most-wanted" className="text-gray-300 hover:text-white transition-colors">Ten Most Wanted Fugitives</a></li>
-              <li><a href="/tips" className="text-gray-300 hover:text-white transition-colors">Submit a Tip</a></li>
-              <li><a href="/jobs" className="text-gray-300 hover:text-white transition-colors">Careers at FBI</a></li>
-              <li><a href="/news" className="text-gray-300 hover:text-white transition-colors">Press Room</a></li>
+              <li><a href="/Mostwanted" className="text-gray-300 hover:text-white transition-colors">{t('mostWanted')}</a></li>
+              <li><a href="/Mostwanted" className="text-gray-300 hover:text-white transition-colors">{t('Mostwanted')}</a></li>
+              <li><a href="/History" className="text-gray-300 hover:text-white transition-colors">{t('/History')}</a></li>
+              <li><a href="/ContactPage" className="text-gray-300 hover:text-white transition-colors">{t('Contact-Us')}</a></li>
+              <li><a href="/News" className="text-gray-300 hover:text-white transition-colors">{t('pressRoom')}</a></li>
             </ul>
           </div>
 
           {/* Column 3: Resources */}
           <div>
             <h3 className="text-lg font-bold border-b-2 border-[#B22234] inline-block pb-1 mb-4">
-              Resources
+              {t('resources')}
             </h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/foia" className="text-gray-300 hover:text-white transition-colors">Freedom of Information Act (FOIA)</a></li>
-              <li><a href="/legal" className="text-gray-300 hover:text-white transition-colors">Legal Notices</a></li>
-              <li><a href="/privacy" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="/accessibility" className="text-gray-300 hover:text-white transition-colors">Accessibility</a></li>
-              <li><a href="/sitemap" className="text-gray-300 hover:text-white transition-colors">Site Map</a></li>
+              <li><a href="/CybarCrimeCenter" className="text-gray-300 hover:text-white transition-colors">{t('Cybar-Crime')}</a></li>
+              <li><a href="/Investigations" className="text-gray-300 hover:text-white transition-colors">{t('Investigations')}</a></li>
+              <li><a href="/About" className="text-gray-300 hover:text-white transition-colors">{t('privacyPolicy')}</a></li>
+              <li><a href="https://www.usa.gov" className="text-gray-300 hover:text-white transition-colors">{t('USA-GOV')}</a></li>
+              <li><a href="https://www.whitehouse.gov/'" className="text-gray-300 hover:text-white transition-colors">{t('White-House')}</a></li>
             </ul>
           </div>
 
-          {/* Column 4: Contact & alert */}
+          {/* Column 4: Contact & language */}
           <div>
             <h3 className="text-lg font-bold border-b-2 border-[#B22234] inline-block pb-1 mb-4">
-              Get in Touch
+              {t('getInTouch')}
             </h3>
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-2">
                 <FaPhoneAlt className="text-[#FFD700] mt-0.5" />
-                <span className="text-gray-300">Emergency: 911</span>
+                <span className="text-gray-300">{t('emergency')}</span>
               </div>
               <div className="flex items-start gap-2">
                 <FaPhoneAlt className="text-[#FFD700] mt-0.5" />
-                <span className="text-gray-300">FBI Tip Line: 1-800-CALL-FBI</span>
+                <span className="text-gray-300">{t('tipLine')}</span>
               </div>
               <div className="flex items-start gap-2">
                 <FaEnvelope className="text-[#FFD700] mt-0.5" />
-                <span className="text-gray-300">tips@fbi.gov</span>
+                <span className="text-gray-300">{t('emailTips')}</span>
               </div>
             </div>
             <div className="mt-6 bg-[#B22234]/20 p-3 rounded-lg border-l-4 border-[#FFD700]">
               <p className="text-xs text-gray-200">
-                <strong className="text-[#FFD700]">⚠️ Report Suspicious Activity</strong><br />
-                If you see something, say something. Contact your local field office or submit a tip online.
+                <strong className="text-[#FFD700]">⚠️ {t('reportSuspicious')}</strong><br />
+                {t('reportSuspiciousText')}
               </p>
+            </div>
+
+            {/* Language Switcher */}
+            <div className="mt-6 pt-4 border-t border-white/20">
+              <p className="text-xs text-gray-300 mb-2 flex items-center gap-1">
+                <FaGlobe size={10} /> {t('language')}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => changeLanguage(lang.code)}
+                    className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs transition ${
+                      i18n.language === lang.code
+                        ? 'bg-[#B22234] text-white'
+                        : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                    }`}
+                  >
+                    <span>{lang.flag}</span>
+                    <span>{lang.name}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom bar with official disclaimer */}
+        {/* Bottom bar */}
         <div className="border-t border-[#B22234]/30 mt-10 pt-6 text-center text-xs text-gray-400">
-          <p>
-            An official website of the United States government. 
-            This site is maintained by the Federal Bureau of Investigation.
-          </p>
-          <p className="mt-2">
-            The FBI seal and the phrase "FBI" are registered trademarks of the Federal Bureau of Investigation.
-          </p>
-          <p className="mt-4">
-            © {currentYear} Federal Bureau of Investigation. All rights reserved.
-          </p>
+          <p>{t('officialNotice')}</p>
+          <p className="mt-1">{t('trademarkNotice')}</p>
+          <p className="mt-4">{t('copyright', { year: currentYear })}</p>
         </div>
       </div>
     </footer>

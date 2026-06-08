@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaUserSecret,  FaPaperPlane, FaClock, FaExclamationTriangle } from 'react-icons/fa';
 
-
-// Sample most wanted data (replace with real API if needed)
+// Sample most wanted data (replace with real API later)
 const mostWantedList = [
   { name: 'JASON DEREK BROWN', reward: '$100,000', crime: 'Terrorism', link: '/wanted/jason-brown' },
   { name: 'YULAN ANDREA GONGORA', reward: '$50,000', crime: 'Cybercrime', link: '/wanted/yulan-gongora' },
@@ -10,14 +10,14 @@ const mostWantedList = [
   { name: 'BOLESLAW DOMINIK', reward: '$200,000', crime: 'Espionage', link: '/wanted/boleslaw-dominik' },
 ];
 
-const Interactivew: React.FC = () => {
-  // Most Wanted random index – changes daily
+const InteractiveWidgetsSection: React.FC = () => {
+  const { t } = useTranslation();
   const [wantedIndex, setWantedIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const [tipSubmitted, setTipSubmitted] = useState(false);
   const [tipText, setTipText] = useState('');
 
-  // Randomize Most Wanted daily (based on date)
+  // Randomize Most Wanted daily
   useEffect(() => {
     const today = new Date().toDateString();
     const storedDate = localStorage.getItem('wantedDate');
@@ -65,7 +65,7 @@ const Interactivew: React.FC = () => {
     <section className="bg-white py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-[#0B3B60] text-center mb-12">
-          Citizen Tools & Resources
+          {t('citizenToolsTitle')}
         </h2>
         <div className="grid md:grid-cols-2 gap-8">
           {/* LEFT WIDGET: Most Wanted of the Day */}
@@ -75,9 +75,9 @@ const Interactivew: React.FC = () => {
                 <div>
                   <h3 className="text-2xl font-bold flex items-center gap-2">
                     <FaExclamationTriangle className="text-[#FFD700]" />
-                    FBI Most Wanted
+                    {t('mostWantedTitle')}
                   </h3>
-                  <p className="text-sm opacity-80">Today's featured fugitive</p>
+                  <p className="text-sm opacity-80">{t('dailyFugitive')}</p>
                 </div>
                 <div className="bg-black/30 rounded-lg px-3 py-1 text-center">
                   <FaClock className="inline mr-1 text-[#FFD700]" />
@@ -90,17 +90,17 @@ const Interactivew: React.FC = () => {
               </div>
               <div className="bg-white/10 rounded-xl p-4 mb-4 backdrop-blur-sm">
                 <h4 className="text-xl font-mono font-bold text-[#FFD700]">{currentWanted.name}</h4>
-                <p className="text-sm mt-1">Crime: {currentWanted.crime}</p>
-                <p className="text-sm">Reward: {currentWanted.reward}</p>
+                <p className="text-sm mt-1">{t('crime')}: {currentWanted.crime}</p>
+                <p className="text-sm">{t('reward')}: {currentWanted.reward}</p>
               </div>
               <a
                 href={currentWanted.link}
                 className="inline-block w-full text-center bg-[#B22234] hover:bg-[#8B1A1A] py-2 rounded-lg font-semibold transition-colors"
               >
-                View Profile & Report Sighting
+                {t('viewProfileReport')}
               </a>
               <p className="text-xs text-center mt-3 opacity-70">
-                New fugitive featured daily. If seen, do not approach – call 1-800-CALL-FBI.
+                {t('dailyWarning')}
               </p>
             </div>
           </div>
@@ -110,33 +110,33 @@ const Interactivew: React.FC = () => {
             <div className="bg-[#B22234] px-6 py-4">
               <h3 className="text-xl font-bold text-white flex items-center gap-2">
                 <FaUserSecret />
-                Submit an Anonymous Tip
+                {t('anonymousTipTitle')}
               </h3>
             </div>
             <div className="p-6">
               {tipSubmitted ? (
                 <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded animate-fadeIn">
-                  <p className="font-semibold">✓ Tip submitted successfully.</p>
-                  <p className="text-sm">Thank you for helping keep our communities safe.</p>
+                  <p className="font-semibold">✓ {t('tipSuccess')}</p>
+                  <p className="text-sm">{t('tipThankYou')}</p>
                 </div>
               ) : (
                 <form onSubmit={handleTipSubmit}>
                   <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
-                      Your message (required)
+                      {t('messageRequired')}
                     </label>
                     <textarea
                       value={tipText}
                       onChange={(e) => setTipText(e.target.value)}
                       rows={4}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B22234]"
-                      placeholder="Describe the suspicious activity or provide information..."
+                      placeholder={t('tipPlaceholder')}
                       required
                     />
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
-                      Your email (optional, for follow‑up)
+                      {t('emailOptional')}
                     </label>
                     <input
                       type="email"
@@ -148,10 +148,10 @@ const Interactivew: React.FC = () => {
                     type="submit"
                     className="w-full bg-[#0B3B60] hover:bg-[#082A45] text-white font-semibold py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
-                    <FaPaperPlane /> Send Tip Securely
+                    <FaPaperPlane /> {t('sendTipButton')}
                   </button>
                   <p className="text-xs text-gray-500 mt-3 text-center">
-                    Your identity will remain anonymous. All tips are encrypted.
+                    {t('tipDisclaimer')}
                   </p>
                 </form>
               )}
@@ -159,23 +159,19 @@ const Interactivew: React.FC = () => {
           </div>
         </div>
 
-        {/* Additional row: live news ticker widget (optional) */}
+        {/* Live news ticker widget */}
         <div className="mt-12 bg-[#0B3B60]/5 rounded-xl p-4 border border-[#B22234]/20">
           <div className="flex items-center gap-3 overflow-hidden">
-            <span className="bg-[#B22234] text-white text-xs font-bold px-2 py-1 rounded">LIVE</span>
+            <span className="bg-[#B22234] text-white text-xs font-bold px-2 py-1 rounded">{t('live')}</span>
             <div className="animate-marquee whitespace-nowrap">
               <span className="text-[#0B3B60] font-medium">
-                🔹 FBI seeks public assistance in identifying Jan 6 Capitol suspects • 
-                🔹 New cyber advisory: protect against ransomware • 
-                🔹 Joint operation dismantles international drug ring • 
-                🔹 Most Wanted capture in Virginia
+                {t('tickerText')}
               </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Reuse fadeIn animation from earlier, plus marquee */}
       <style>{`
         .animate-fadeIn {
           animation: fadeIn 0.3s ease-out;
@@ -196,4 +192,4 @@ const Interactivew: React.FC = () => {
   );
 };
 
-export default Interactivew;
+export default InteractiveWidgetsSection;
