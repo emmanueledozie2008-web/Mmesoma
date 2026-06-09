@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import {
   FaTwitter,
   FaFacebookF,
@@ -65,53 +66,43 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Column 2: Quick links */}
-          <div>
-            <h3 className="text-lg font-bold border-b-2 border-[#B22234] inline-block pb-1 mb-4">
-              {t("quickLinks")}
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href="/Mostwanted"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {t("mostWanted")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/Mostwanted"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {t("Mostwanted")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/History"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {t("/History")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/ContactPage"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {t("Contact-Us")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/News"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {t("pressRoom")}
-                </a>
-              </li>
-            </ul>
-          </div>
+          <ul className="space-y-2 text-sm">
+        <li>
+          <Link
+            to="/Mostwanted"
+            className="text-gray-300 hover:text-white transition-colors"
+          >
+            {t("mostWanted")}
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            to="/History"
+            className="text-gray-300 hover:text-white transition-colors"
+          >
+            {t("history")}
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            to="/ContactPage"
+            className="text-gray-300 hover:text-white transition-colors"
+          >
+            {t("contactUs")}
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            to="/News"
+            className="text-gray-300 hover:text-white transition-colors"
+          >
+            {t("pressRoom")}
+          </Link>
+        </li>
+      </ul>
 
           {/* Column 3: Resources */}
           <div>

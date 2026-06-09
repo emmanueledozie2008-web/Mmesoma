@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import emailjs from '@emailjs/browser';
 import { FaUserSecret,  FaPaperPlane, FaClock, FaExclamationTriangle } from 'react-icons/fa';
+
+// EmailJS configuration – replace with your own
+const EMAILJS_SERVICE_ID = 'service_piu02te';
+const EMAILJS_TEMPLATE_ID = 'template_nq8nx4j';
+const EMAILJS_PUBLIC_KEY = '6gf9TWqZfHZDVz8S9';
 
 // Sample most wanted data (replace with real API later)
 const mostWantedList = [
@@ -14,8 +20,14 @@ const InteractiveWidgetsSection: React.FC = () => {
   const { t } = useTranslation();
   const [wantedIndex, setWantedIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
-  const [tipSubmitted, setTipSubmitted] = useState(false);
+  
+  // Tip form state
   const [tipText, setTipText] = useState('');
+  const [tipEmail, setTipEmail] = useState('');
+  const [tipName, setTipName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const formRef = useRef<HTMLFormElement>(null);
 
   // Randomize Most Wanted daily
   useEffect(() => {
@@ -32,7 +44,7 @@ const InteractiveWidgetsSection: React.FC = () => {
     }
   }, []);
 
-  // Countdown timer to next day (midnight)
+  // Countdown timer
   useEffect(() => {
     const updateCountdown = () => {
       const now = new Date();
@@ -50,12 +62,44 @@ const InteractiveWidgetsSection: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleTipSubmit = (e: React.FormEvent) => {
+  const handleTipSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (tipText.trim()) {
-      setTipSubmitted(true);
-      setTimeout(() => setTipSubmitted(false), 3000);
-      setTipText('');
+    if (!tipText.trim()) return;
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const templateParams = {
+        tip_message: tipText,
+        tip_email: tipEmail || 'Anonymous',
+        tip_name: tipName || 'Anonymous',
+        from_name: tipName || 'Anonymous Tipster',
+        reply_to: tipEmail || 'no-reply@fbi.gov',
+      };
+
+      const result = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+
+      if (result.status === 200) {
+        setSubmitStatus('success');
+        setTipText('');
+        setTipEmail('');
+        setTipName('');
+        if (formRef.current) formRef.current.reset();
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (error) {
+      console.error('EmailJS error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus('idle'), 5000);
     }
   };
 
@@ -105,7 +149,7 @@ const InteractiveWidgetsSection: React.FC = () => {
             </div>
           </div>
 
-          {/* RIGHT WIDGET: Anonymous Tip Form */}
+          {/* RIGHT WIDGET: Anonymous Tip Form with EmailJS */}
           <div className="bg-gray-50 rounded-2xl shadow-xl overflow-hidden border border-gray-200">
             <div className="bg-[#B22234] px-6 py-4">
               <h3 className="text-xl font-bold text-white flex items-center gap-2">
@@ -114,47 +158,75 @@ const InteractiveWidgetsSection: React.FC = () => {
               </h3>
             </div>
             <div className="p-6">
-              {tipSubmitted ? (
-                <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded animate-fadeIn">
+              {submitStatus === 'success' && (
+                <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded animate-fadeIn mb-4">
                   <p className="font-semibold">✓ {t('tipSuccess')}</p>
                   <p className="text-sm">{t('tipThankYou')}</p>
                 </div>
-              ) : (
-                <form onSubmit={handleTipSubmit}>
-                  <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">
-                      {t('messageRequired')}
-                    </label>
-                    <textarea
-                      value={tipText}
-                      onChange={(e) => setTipText(e.target.value)}
-                      rows={4}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B22234]"
-                      placeholder={t('tipPlaceholder')}
-                      required
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">
-                      {t('emailOptional')}
-                    </label>
-                    <input
-                      type="email"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B22234]"
-                      placeholder="anonymous@example.com"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-[#0B3B60] hover:bg-[#082A45] text-white font-semibold py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
-                  >
-                    <FaPaperPlane /> {t('sendTipButton')}
-                  </button>
-                  <p className="text-xs text-gray-500 mt-3 text-center">
-                    {t('tipDisclaimer')}
-                  </p>
-                </form>
               )}
+              {submitStatus === 'error' && (
+                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded animate-fadeIn mb-4">
+                  <p className="font-semibold">⚠️ {t('tipError')}</p>
+                  <p className="text-sm">{t('tipErrorDesc')}</p>
+                </div>
+              )}
+              <form ref={formRef} onSubmit={handleTipSubmit}>
+                <div className="mb-3">
+                  <label className="block text-gray-700 text-sm font-bold mb-1">
+                    {t('tipNameOptional')}
+                  </label>
+                  <input
+                    type="text"
+                    value={tipName}
+                    onChange={(e) => setTipName(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B22234]"
+                    placeholder={t('tipNamePlaceholder')}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="block text-gray-700 text-sm font-bold mb-1">
+                    {t('tipEmailOptional')}
+                  </label>
+                  <input
+                    type="email"
+                    value={tipEmail}
+                    onChange={(e) => setTipEmail(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B22234]"
+                    placeholder="anonymous@example.com"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-1">
+                    {t('messageRequired')}
+                  </label>
+                  <textarea
+                    value={tipText}
+                    onChange={(e) => setTipText(e.target.value)}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B22234]"
+                    placeholder={t('tipPlaceholder')}
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full bg-[#0B3B60] hover:bg-[#082A45] text-white font-semibold py-2 rounded-lg transition-colors flex items-center justify-center gap-2 ${
+                    isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <>{t('sending')}</>
+                  ) : (
+                    <>
+                      <FaPaperPlane /> {t('sendTipButton')}
+                    </>
+                  )}
+                </button>
+                <p className="text-xs text-gray-500 mt-3 text-center">
+                  {t('tipDisclaimer')}
+                </p>
+              </form>
             </div>
           </div>
         </div>

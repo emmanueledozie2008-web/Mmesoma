@@ -38,7 +38,6 @@ const Navbar: React.FC = () => {
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
     setIsLangDropdownOpen(false);
-    // Close sidebar if it's open (better UX)
     if (isSidebarOpen) setIsSidebarOpen(false);
   };
 
@@ -96,7 +95,7 @@ const Navbar: React.FC = () => {
                   className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-200 hover:text-white hover:bg-[#B22234]/20 transition-all"
                 >
                   <FaGlobe size={14} />
-                  <span>{currentLanguage.flag} {currentLanguage.name}</span>
+                  <span>Language</span>
                 </button>
                 {isLangDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden z-50">
@@ -118,16 +117,16 @@ const Navbar: React.FC = () => {
               </div>
             </div>
 
-            {/* Mobile: language icon + hamburger (both in top bar) */}
+            {/* Mobile: language button + hamburger */}
             <div className="flex items-center gap-2 md:hidden">
-              {/* Mobile language icon (compact) */}
+              {/* Mobile language button */}
               <div className="relative">
                 <button
                   onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
                   className="flex items-center gap-1 p-2 rounded-md text-gray-200 hover:text-white hover:bg-[#B22234]/30 transition-all"
                 >
-                  <FaGlobe size={18} />
-                  <span className="text-sm">{currentLanguage.flag}</span>
+                  <FaGlobe size={16} />
+                  <span className="text-sm">Language</span>
                 </button>
                 {isLangDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden z-50">
@@ -211,7 +210,7 @@ const Navbar: React.FC = () => {
             {/* Language selection inside sidebar */}
             <div className="pt-4 mt-2 border-t border-gray-200">
               <p className="text-xs text-gray-500 mb-2 flex items-center gap-1">
-                <FaGlobe size={10} /> {t('language')}
+                <FaGlobe size={10} /> Language
               </p>
               <div className="flex flex-col gap-2">
                 {languages.map((lang) => (
