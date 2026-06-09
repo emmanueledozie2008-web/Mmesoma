@@ -11,20 +11,20 @@ import {
 import { FaWhatsapp } from "react-icons/fa";
 
 const Footer: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t,  } = useTranslation();
   const currentYear = new Date().getFullYear();
 
-  const languages = [
-    { code: "en", name: "English", flag: "🇺🇸" },
-    { code: "es", name: "Español", flag: "🇪🇸" },
-    { code: "fr", name: "Français", flag: "🇫🇷" },
-    { code: "de", name: "Deutsch", flag: "🇩🇪" },
-    { code: "zh", name: "中文", flag: "🇨🇳" },
-  ];
+  // const languages = [
+  //   { code: "en", name: "English", flag: "🇺🇸" },
+  //   { code: "es", name: "Español", flag: "🇪🇸" },
+  //   { code: "fr", name: "Français", flag: "🇫🇷" },
+  //   { code: "de", name: "Deutsch", flag: "🇩🇪" },
+  //   { code: "zh", name: "中文", flag: "🇨🇳" },
+  // ];
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
+  // const changeLanguage = (lng: string) => {
+  //   i18n.changeLanguage(lng);
+  // };
 
   return (
     <footer className="bg-[#0B3B60] text-white mt-auto">
