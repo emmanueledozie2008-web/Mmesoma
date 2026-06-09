@@ -43,7 +43,7 @@ const Navbar: React.FC = () => {
 
   const closeSidebar = () => setIsSidebarOpen(false);
 
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  // const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
 
   return (
     <>
