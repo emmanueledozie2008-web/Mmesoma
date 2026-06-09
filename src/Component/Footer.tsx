@@ -1,17 +1,26 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { FaTwitter, FaFacebookF, FaYoutube, FaEnvelope, FaPhoneAlt, FaShieldAlt, FaGlobe } from 'react-icons/fa';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  FaTwitter,
+  FaFacebookF,
+  FaYoutube,
+  FaEnvelope,
+  FaPhoneAlt,
+  FaShieldAlt,
+  FaGlobe,
+} from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 
 const Footer: React.FC = () => {
   const { t, i18n } = useTranslation();
   const currentYear = new Date().getFullYear();
 
   const languages = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'es', name: 'Español', flag: '🇪🇸' },
-    { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'zh', name: '中文', flag: '🇨🇳' },
+    { code: "en", name: "English", flag: "🇺🇸" },
+    { code: "es", name: "Español", flag: "🇪🇸" },
+    { code: "fr", name: "Français", flag: "🇫🇷" },
+    { code: "de", name: "Deutsch", flag: "🇩🇪" },
+    { code: "zh", name: "中文", flag: "🇨🇳" },
   ];
 
   const changeLanguage = (lng: string) => {
@@ -32,16 +41,25 @@ const Footer: React.FC = () => {
             </div>
             <div
               className="text-sm text-gray-300 mb-4"
-              dangerouslySetInnerHTML={{ __html: t('footerAddress') }}
+              dangerouslySetInnerHTML={{ __html: t("footerAddress") }}
             />
             <div className="flex space-x-3 mb-4">
-              <a href="#" className="text-gray-300 hover:text-[#FFD700] transition-colors">
+              <a
+                href="#"
+                className="text-gray-300 hover:text-[#FFD700] transition-colors"
+              >
                 <FaTwitter size={18} />
               </a>
-              <a href="#" className="text-gray-300 hover:text-[#FFD700] transition-colors">
+              <a
+                href="#"
+                className="text-gray-300 hover:text-[#FFD700] transition-colors"
+              >
                 <FaFacebookF size={18} />
               </a>
-              <a href="#" className="text-gray-300 hover:text-[#FFD700] transition-colors">
+              <a
+                href="#"
+                className="text-gray-300 hover:text-[#FFD700] transition-colors"
+              >
                 <FaYoutube size={18} />
               </a>
             </div>
@@ -50,87 +68,155 @@ const Footer: React.FC = () => {
           {/* Column 2: Quick links */}
           <div>
             <h3 className="text-lg font-bold border-b-2 border-[#B22234] inline-block pb-1 mb-4">
-              {t('quickLinks')}
+              {t("quickLinks")}
             </h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/Mostwanted" className="text-gray-300 hover:text-white transition-colors">{t('mostWanted')}</a></li>
-              <li><a href="/Mostwanted" className="text-gray-300 hover:text-white transition-colors">{t('Mostwanted')}</a></li>
-              <li><a href="/History" className="text-gray-300 hover:text-white transition-colors">{t('/History')}</a></li>
-              <li><a href="/ContactPage" className="text-gray-300 hover:text-white transition-colors">{t('Contact-Us')}</a></li>
-              <li><a href="/News" className="text-gray-300 hover:text-white transition-colors">{t('pressRoom')}</a></li>
+              <li>
+                <a
+                  href="/Mostwanted"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  {t("mostWanted")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/Mostwanted"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  {t("Mostwanted")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/History"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  {t("/History")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/ContactPage"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  {t("Contact-Us")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/News"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  {t("pressRoom")}
+                </a>
+              </li>
             </ul>
           </div>
 
           {/* Column 3: Resources */}
           <div>
             <h3 className="text-lg font-bold border-b-2 border-[#B22234] inline-block pb-1 mb-4">
-              {t('resources')}
+              {t("resources")}
             </h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/CybarCrimeCenter" className="text-gray-300 hover:text-white transition-colors">{t('Cybar-Crime')}</a></li>
-              <li><a href="/Investigations" className="text-gray-300 hover:text-white transition-colors">{t('Investigations')}</a></li>
-              <li><a href="/About" className="text-gray-300 hover:text-white transition-colors">{t('privacyPolicy')}</a></li>
-              <li><a href="https://www.usa.gov" className="text-gray-300 hover:text-white transition-colors">{t('USA-GOV')}</a></li>
-              <li><a href="https://www.whitehouse.gov/'" className="text-gray-300 hover:text-white transition-colors">{t('White-House')}</a></li>
+              <li>
+                <a
+                  href="/CybarCrimeCenter"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  {t("Cybar-Crime")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/Investigations"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  {t("Investigations")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/About"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  {t("privacyPolicy")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.usa.gov"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  {t("USA-GOV")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.whitehouse.gov/'"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  {t("White-House")}
+                </a>
+              </li>
             </ul>
           </div>
 
           {/* Column 4: Contact & language */}
+
           <div>
             <h3 className="text-lg font-bold border-b-2 border-[#B22234] inline-block pb-1 mb-4">
-              {t('getInTouch')}
+              {t("getInTouch")}
             </h3>
+
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-2">
                 <FaPhoneAlt className="text-[#FFD700] mt-0.5" />
-                <span className="text-gray-300">{t('emergency')}</span>
+                <span className="text-gray-300">{t("emergency")}</span>
               </div>
+
               <div className="flex items-start gap-2">
                 <FaPhoneAlt className="text-[#FFD700] mt-0.5" />
-                <span className="text-gray-300">{t('tipLine')}</span>
+                <span className="text-gray-300">{t("tipLine")}</span>
               </div>
+
               <div className="flex items-start gap-2">
                 <FaEnvelope className="text-[#FFD700] mt-0.5" />
-                <span className="text-gray-300">{t('emailTips')}</span>
+                <span className="text-gray-300">{t("emailTips")}</span>
               </div>
-            </div>
-            <div className="mt-6 bg-[#B22234]/20 p-3 rounded-lg border-l-4 border-[#FFD700]">
-              <p className="text-xs text-gray-200">
-                <strong className="text-[#FFD700]">⚠️ {t('reportSuspicious')}</strong><br />
-                {t('reportSuspiciousText')}
-              </p>
+
+              {/* WhatsApp Contact */}
+              <div className="flex items-start gap-2">
+                <FaWhatsapp className="text-green-500 mt-0.5 text-lg" />
+                <a
+                  href="https://wa.me/+16628218160"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-green-400 transition-colors"
+                >
+                  +16628218160
+                </a>
+              </div>
             </div>
 
-            {/* Language Switcher */}
-            <div className="mt-6 pt-4 border-t border-white/20">
-              <p className="text-xs text-gray-300 mb-2 flex items-center gap-1">
-                <FaGlobe size={10} /> {t('language')}
+            <div className="mt-6 bg-[#B22234]/20 p-3 rounded-lg border-l-4 border-[#FFD700]">
+              <p className="text-xs text-gray-200">
+                <strong className="text-[#FFD700]">
+                  ⚠️ {t("reportSuspicious")}
+                </strong>
+                <br />
+                {t("reportSuspiciousText")}
               </p>
-              <div className="flex flex-wrap gap-2">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => changeLanguage(lang.code)}
-                    className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs transition ${
-                      i18n.language === lang.code
-                        ? 'bg-[#B22234] text-white'
-                        : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                    }`}
-                  >
-                    <span>{lang.flag}</span>
-                    <span>{lang.name}</span>
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="border-t border-[#B22234]/30 mt-10 pt-6 text-center text-xs text-gray-400">
-          <p>{t('officialNotice')}</p>
-          <p className="mt-1">{t('trademarkNotice')}</p>
-          <p className="mt-4">{t('copyright', { year: currentYear })}</p>
+          <p>{t("officialNotice")}</p>
+          <p className="mt-1">{t("trademarkNotice")}</p>
+          <p className="mt-4">{t("copyright", { year: currentYear })}</p>
         </div>
       </div>
     </footer>
