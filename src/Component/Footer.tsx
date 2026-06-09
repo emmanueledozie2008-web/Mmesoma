@@ -7,7 +7,6 @@ import {
   FaEnvelope,
   FaPhoneAlt,
   FaShieldAlt,
-  FaGlobe,
 } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
 
