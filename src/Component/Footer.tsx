@@ -66,7 +66,11 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Column 2: Quick links */}
-          <ul className="space-y-2 text-sm">
+     <div>
+     <h3 className="text-lg font-bold border-b-2 border-[#B22234] inline-block pb-1 mb-4">
+    {t("Contact us")}
+  </h3>
+     <ul className="space-y-2 text-sm">
         <li>
           <Link
             to="/Mostwanted"
@@ -103,55 +107,65 @@ const Footer: React.FC = () => {
           </Link>
         </li>
       </ul>
+     </div>
 
           {/* Column 3: Resources */}
           <div>
-            <h3 className="text-lg font-bold border-b-2 border-[#B22234] inline-block pb-1 mb-4">
-              {t("resources")}
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href="/CybarCrimeCenter"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {t("Cybar-Crime")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/Investigations"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {t("Investigations")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/About"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {t("privacyPolicy")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.usa.gov"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {t("USA-GOV")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.whitehouse.gov/'"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  {t("White-House")}
-                </a>
-              </li>
-            </ul>
-          </div>
+  <h3 className="text-lg font-bold border-b-2 border-[#B22234] inline-block pb-1 mb-4">
+    {t("resources")}
+  </h3>
+
+  <ul className="space-y-2 text-sm">
+    <li>
+      <Link
+        to="/CybarCrimeCenter"
+        className="text-gray-300 hover:text-white transition-colors"
+      >
+        {t("CyberCrime")}
+      </Link>
+    </li>
+
+    <li>
+      <Link
+        to="/Investigations"
+        className="text-gray-300 hover:text-white transition-colors"
+      >
+        {t("Investigations")}
+      </Link>
+    </li>
+
+    <li>
+      <Link
+        to="/About"
+        className="text-gray-300 hover:text-white transition-colors"
+      >
+        {t("privacyPolicy")}
+      </Link>
+    </li>
+
+    <li>
+      <a
+        href="https://www.usa.gov"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-gray-300 hover:text-white transition-colors"
+      >
+        {t("USA-GOV")}
+      </a>
+    </li>
+
+    <li>
+      <a
+        href="https://www.whitehouse.gov/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-gray-300 hover:text-white transition-colors"
+      >
+        {t("White-House")}
+      </a>
+    </li>
+  </ul>
+</div>
 
           {/* Column 4: Contact & language */}
 
